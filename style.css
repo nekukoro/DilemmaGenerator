@@ -1,0 +1,185 @@
+
+body {
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background-color: rgb(0, 0, 0);
+  box-shadow: inset 0 0 300px rgba(113, 113, 113, 0.3);
+}
+
+#headerArea {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(230, 230, 230);
+  box-shadow:
+     0 0 100px rgb(0,0,0),
+     inset 0 0 50px rgb(0,0,0);
+}
+
+#dilemmaMitaina {
+  margin-bottom: 0;
+  letter-spacing: 0.1em;
+}
+
+#dilemmaGenerator {
+  margin-top: 1px;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+}
+
+#resultWrapper {
+  display: block;
+  width: 50%;
+  min-width: 400px;
+  margin: 10% auto;
+  padding: 2%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#resultArea {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  background-color: transparent;
+  margin-bottom: 10px;
+  
+  line-height: 1.8;
+  text-align: left;
+  word-break: break-word; 
+  white-space: normal;   
+}
+
+#resultText {
+  font-size: 20px;
+  color: white;
+  -webkit-text-stroke: 1px rgb(10, 10, 10);
+  paint-order: stroke;
+  letter-spacing: 0.15rem;
+}
+
+#relotteryBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: rgb(35, 35, 35);
+  font-size: 10pt;
+  color: rgb(215, 215, 215);
+  border-color: rgb(215, 215, 215);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+span {
+  display: inline-block;
+}
+
+
+
+/* 結果の表示 */
+.word {
+  display: inline-block;
+  opacity: 0;
+  color: #ffffff;
+  position: relative; /* n倍残像の位置基準 */
+
+  transform: translateY(10px) skewX(-8deg);
+
+  transition: 
+    opacity 0.1s ease-out,
+    transform 0.36s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.word.highlight {
+  font-size: 1.1em;
+  vertical-align: middle;
+  margin: 0 0.1em;
+  transition: opacity 0.3s ease-out;
+}
+
+
+  /* n倍残像ノイズ */
+.word.highlight::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  transform: translate(-50%, -50%) scale(2);
+  color: #ffffffd0;
+  pointer-events: none;
+  white-space: nowrap;
+  
+  opacity: 1;
+  transition: opacity 1.6s ease-out, transform 0.5s ease-out;
+}
+
+
+/* 定位置 */
+.word.visible {
+  opacity: 1;
+  transform: translate(0, 0) skewX(0deg);
+}
+
+/* n倍残像を消す */
+.word.highlight.visible::before {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1) skewX(0deg);
+}
+
+
+#glitchClone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+  
+  transition: none !important;
+}
+
+/* 停止時のノイズ */
+.glitch-clone-layer {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+  display: block !important;
+  transition: none !important;
+  line-height: 1.8; /* 元の #resultArea と同じ行高に合わせる */
+}
+
+/* 一瞬(is-glitching)だけ四角く切り抜いてずらす */
+.glitch-clone-layer.is-glitching {
+  opacity: 1 !important;
+  
+  /* 上下左右の長方形切り抜き */
+  clip-path: inset(
+    var(--clip-top, 0%) 
+    var(--clip-right, 0%) 
+    var(--clip-bottom, 0%) 
+    var(--clip-left, 0%)
+  ) !important;
+  
+  /* 位置の水平ズレ */
+  transform: translate(var(--shift-x, 0px), var(--shift-y, 0px)) !important;
+  
+  /* 赤・シアンの色ズレ */
+  filter: drop-shadow(-3px 0px 0px #ff0055) drop-shadow(3px 0px 0px #00e5ff) !important;
+}
