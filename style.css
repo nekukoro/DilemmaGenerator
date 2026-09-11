@@ -41,7 +41,7 @@ body {
 #resultWrapper {
   display: block;
   width: 50%;
-  min-width: 400px;
+  min-width: 350px;
   margin: 5% auto;
   padding: 2%;
   overflow: hidden;
@@ -63,11 +63,13 @@ body {
 
 #resultText {
   font-size: 20px;
-  color: white;
-  -webkit-text-stroke: 1px rgb(10, 10, 10);
-  paint-order: stroke;
+  line-height: 1.8;
   letter-spacing: 0.15rem;
+  word-break: break-word;
+  white-space: normal;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #relotteryBtn {
@@ -171,7 +173,15 @@ span {
   z-index: 100;
   display: block !important;
   transition: none !important;
-  line-height: 1.8;
+
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+.glitch-clone-layer .word.highlight::before {
+  display: none !important;
+  content: none !important;
 }
 
 .glitch-clone-layer.is-glitching {
