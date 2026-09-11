@@ -210,7 +210,9 @@ function setupGlitchClone(target) {
   }
 
   // クローン要素作成
-  const clone = document.createElement('div');
+  const clone = target.cloneNode(true);
+
+  clone.id = 'glitchCloneLayer';
   clone.className = 'glitch-clone-layer';
 
   clone.innerHTML = target.innerHTML;
@@ -220,6 +222,7 @@ function setupGlitchClone(target) {
     w.classList.add('visible');
     w.style.opacity = '1';
     w.style.transform = 'none';
+    w.style.transition = 'none';
   });
 
   target.insertAdjacentElement('afterend', clone);
